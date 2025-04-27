@@ -1,7 +1,12 @@
+// const creation
+
 const myLibrary = [];
 const addBookButton = document.querySelector(".add-button");
 const dialog = document.querySelector(".new-book__dialog");
 const closeButton = document.querySelector(".close-button");
+const submitButton = document.querySelector(".submit-button");
+
+// Functions creation
 
 function Book(title, author, pages, isRead, iD) {
   this.title = title;
@@ -38,9 +43,24 @@ function displayBooks() {
     pages.textContent = `Pages: ${book.pages}`;
     bookContainer.appendChild(pages);
 
-    const isRead = document.createElement("p");
-    isRead.textContent = `Read: ${book.isRead ? "Yes" : "No"}`;
-    bookContainer.appendChild(isRead);
+    const isReadContainer = document.createElement("p");
+    isReadContainer.textContent = "Read: ";
+
+    const isReadSpan = document.createElement("span");
+    isReadSpan.classList.add("read-status");
+    isReadSpan.textContent = book.isRead ? "Yes" : "No";
+    isReadSpan.classList.add(book.isRead ? "read-yes" : "read-no");
+    isReadSpan.style.cursor = "pointer";
+
+    isReadSpan.addEventListener("click", () => {
+      book.isRead = !book.isRead; // Inverser la valeur de isRead
+      isReadSpan.textContent = book.isRead ? "Yes" : "No"; // Mettre à jour le texte
+      isReadSpan.classList.toggle("read-yes"); // Basculer les classes
+      isReadSpan.classList.toggle("read-no");
+    });
+
+    isReadContainer.appendChild(isReadSpan);
+    bookContainer.appendChild(isReadContainer);
 
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
@@ -64,10 +84,44 @@ function removeBook(bookId) {
 }
 
 function createNewBook() {
-  const submitButton = document.querySelector(".submit-button");
-  const cancelButton = document.querySelector(".cancel-button");
   dialog.showModal();
 }
+
+// Event listeners creation
+
+submitButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  const titleInput = document.getElementById("title");
+  const authorInput = document.getElementById("author");
+  const pagesInput = document.getElementById("pages");
+  const isReadInput = document.getElementById("is-read");
+  const title = titleInput.value;
+  const author = authorInput.value;
+  const pages = parseInt(pagesInput.value);
+  const isRead = isReadInput.checked;
+
+  if (title && author && !isNaN(pages)) {
+    addBookToLibrary(title, author, pages, isRead);
+    displayBooks();
+    dialog.close();
+    titleInput.value = "";
+    authorInput.value = "";
+    pagesInput.value = "";
+    isReadInput.checked = false;
+  } else {
+    alert("Please fill in all fields.");
+  }
+});
+
+addBookButton.addEventListener("click", () => {
+  createNewBook();
+});
+
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+// Example books creation
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, true);
 addBookToLibrary("The Lord of the Rings", "J.R.R. Tolkien", 1178, false);
@@ -118,12 +172,5 @@ addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 281, true);
 addBookToLibrary("1984", "George Orwell", 328, false);
 addBookToLibrary("The Great Gatsby", "F. Scott Fitzgerald", 180, true);
 
-addBookButton.addEventListener("click", () => {
-  createNewBook();
-});
-
-closeButton.addEventListener("click", () => {
-  dialog.close();
-});
-
+// Display books on page load
 displayBooks();

@@ -36,7 +36,8 @@
   text-align: center;
 }
 
-.remove-button {
+.remove-button,
+.close-button {
   background-color: red;
   color: white;
   font-weight: bold;
@@ -63,7 +64,8 @@
   }
 }
 
-.add-button {
+.add-button,
+.submit-button {
   background-color: rgb(43, 255, 0);
   color: rgb(0, 0, 0);
   font-weight: bold;
@@ -130,5 +132,18 @@
     border: 1px solid #ccc;
     border-radius: 0.5rem;
     font-size: 1rem;
+  }
+}
+
+.read {
+  &-status {
+    cursor: pointer;
+  }
+  &-yes {
+    color: green;
+  }
+
+  &-no {
+    color: red;
   }
 }
