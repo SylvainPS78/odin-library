@@ -1,4 +1,7 @@
 const myLibrary = [];
+const addBookButton = document.querySelector(".add-button");
+const dialog = document.querySelector(".new-book__dialog");
+const closeButton = document.querySelector(".close-button");
 
 function Book(title, author, pages, isRead, iD) {
   this.title = title;
@@ -60,6 +63,12 @@ function removeBook(bookId) {
   }
 }
 
+function createNewBook() {
+  const submitButton = document.querySelector(".submit-button");
+  const cancelButton = document.querySelector(".cancel-button");
+  dialog.showModal();
+}
+
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, true);
 addBookToLibrary("The Lord of the Rings", "J.R.R. Tolkien", 1178, false);
 addBookToLibrary(
@@ -108,5 +117,13 @@ addBookToLibrary("The Catcher in the Rye", "J.D. Salinger", 277, false);
 addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 281, true);
 addBookToLibrary("1984", "George Orwell", 328, false);
 addBookToLibrary("The Great Gatsby", "F. Scott Fitzgerald", 180, true);
+
+addBookButton.addEventListener("click", () => {
+  createNewBook();
+});
+
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
 
 displayBooks();
